@@ -5,9 +5,9 @@ class Button
   int w;
   int h;
 
-  Button(Tower tower, Pole o)
+  Button(Tower tower, Pole pole)
   {
-    this.owner = o;
+    this.owner = pole;
     this.h = ButtonHeight;
     this.w = (int) (this.owner.get_width() * ButtonWidthRatio);
 

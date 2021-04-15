@@ -3,15 +3,15 @@ class Arrow
   Disc owner;
   PVector pos;
 
-  Arrow(Disc d)
+  Arrow(Disc disc)
   {
-    this.owner = d;
-    this.pos = d.pos.copy();
+    this.owner = disc;
+    this.pos = this.owner.pos.copy();
   }
 
   void draw()
   {
-    float x = this.owner.owner.get_spot_pos(owner).x - ArrowWidth * 2;
+    float x = this.owner.owner.get_spot_pos(this.owner).x - ArrowWidth * 2;
     float y = this.pos.y + DiscHeight / 2;
     float x1 = x + ArrowWidth;
     float y1 = y - ArrowWidth / 2;

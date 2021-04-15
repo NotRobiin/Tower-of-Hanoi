@@ -37,11 +37,11 @@ class Pole
     this.button.draw();
   }
 
-  void leave(Disc d)
+  void leave(Disc disc)
   {
     for (int i = 0; i < this.discs.size(); i++)
     {
-      if (this.discs.get(i) == d)
+      if (this.discs.get(i) == disc)
       {
         this.discs.remove(i);
         break;
@@ -49,23 +49,23 @@ class Pole
     }
   }
 
-  PVector get_pos(Disc d)
+  PVector get_pos(Disc disc)
   {
-    PVector p = pos.copy();
+    PVector target_pos = this.pos.copy();
 
-    p.x += -(d.w / 2) + this.w / 2;
+    target_pos.x += -(disc.w / 2) + this.w / 2;
 
-    return p;
+    return target_pos;
   }
 
   PVector get_spot_pos(Disc d)
   {
-    PVector p = this.pos.copy();
+    PVector target_pos = this.pos.copy();
 
-    p.x += -(d.w / 2) + this.w / 2;
-    p.y += this.h - DiscHeight * (this.discs.size() + 1);
+    target_pos.x += -(d.w / 2) + this.w / 2;
+    target_pos.y += this.h - DiscHeight * (this.discs.size() + 1);
 
-    return p;
+    return target_pos;
   }
 
   int get_width()
@@ -97,7 +97,7 @@ class Pole
   void sf_set_pos_by_spot(Tower tower)
   {
     if (this.spot == PoleSpot.left)
-      this.pos.x += offset;
+      this.pos.x += this.offset;
 
     else if (this.spot == PoleSpot.middle)
       this.pos.x += tower.get_width() / 2 - this.w;

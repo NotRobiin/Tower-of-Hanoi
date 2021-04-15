@@ -8,9 +8,9 @@ enum MoveState
 
 class Disc
 {
-  PVector pos;
-  PVector vel;
-  PVector acc;
+  PVector pos = new PVector(0, 0);
+  PVector vel = new PVector(0, 0);
+  PVector acc = new PVector(0, 0);
   float w;
   int size;
   color c = color(random(20, 200), random(20, 200), random(20, 200));
@@ -20,14 +20,11 @@ class Disc
 
   Disc(int _size, Pole spawn_point)
   {
-    this.pos = new PVector(0, 0);
-    this.vel = new PVector(0, 0);
-    this.acc = new PVector(0, 0);
     this.size = _size;
     this.w = DiscDefaultWidth + this.size * DiscGrowth;
-    this.pos = spawn_point.get_spot_pos(this);
-    spawn_point.discs.add(this);
     this.owner = spawn_point;
+    this.pos = this.owner.get_spot_pos(this);
+    this.owner.discs.add(this);
   }
 
   void draw()
@@ -75,7 +72,7 @@ class Disc
       return;
     }
 
-    PVector target = new PVector(0, 0);
+    PVector target = null;
 
     if (this.state == MoveState.up)
       target = this.move_up();
@@ -86,7 +83,7 @@ class Disc
     else if (this.state == MoveState.down)
       target = this.move_down(tower, move_target);
 
-    if (target.x == 0 && target.y == 0)
+    if (target == null || this.move_target == -1)
     {
       return;
     }
@@ -97,7 +94,7 @@ class Disc
 
     this.acc = direction;
 
-    this.vel.add(acc);
+    this.vel.add(this.acc);
     this.vel.limit(DiscMaxVelocity);
     this.pos.add(this.vel);
 
@@ -106,57 +103,57 @@ class Disc
 
   PVector move_up()
   {
-    PVector t = new PVector(this.pos.x, height * 0.1);
+    PVector target_pos = new PVector(this.pos.x, height * 0.1);
 
     // Move above the pole.
-    if (dist(this.pos.x, this.pos.y, t.x, t.y) < DiscDistance)
+    if (dist(this.pos.x, this.pos.y, target_pos.x, target_pos.y) < DiscDistance)
     {
       this.state = MoveState.side;
-      t.x = 0;
-      t.y = 0;
+      target_pos.x = 0;
+      target_pos.y = 0;
     }
 
-    return t;
+    return target_pos;
   }
 
   PVector move_down(Tower tower, int which_pole)
   {
-    Pole p = tower.poles.get(which_pole);
-    PVector t = p.get_spot_pos(this);
+    Pole target_pole = tower.poles.get(which_pole);
+    PVector target_pos = target_pole.get_spot_pos(this);
 
     // Arrived
-    if (dist(this.pos.x, this.pos.y, t.x, t.y) < DiscDistance)
+    if (dist(this.pos.x, this.pos.y, target_pos.x, target_pos.y) < DiscDistance)
     {
-      p.discs.add(this);
-      this.owner = p;
+      target_pole.discs.add(this);
+      this.owner = target_pole;
       this.state = MoveState.none;
-      t.x = 0;
-      t.y = 0;
+      target_pos.x = 0;
+      target_pos.y = 0;
       moving = false;
       this.move_target = -1;
     }
 
-    return t;
+    return target_pos;
   }
 
   PVector move_side(Tower tower, int which_pole)
   {
-    Pole p = tower.poles.get(which_pole);
-    PVector t = p.get_pos(this);
+    Pole target_pole = tower.poles.get(which_pole);
+    PVector target_pos = target_pole.get_pos(this);
 
     // Fix for jiggling due to acceleration.
-    t.y = height * 0.1;
+    target_pos.y = height * 0.1;
 
     this.state = MoveState.side;
 
     // Move down.
-    if (dist(this.pos.x, this.pos.y, t.x, t.y) < DiscDistance)
+    if (dist(this.pos.x, this.pos.y, target_pos.x, target_pos.y) < DiscDistance)
     {
       this.state = MoveState.down;
-      t.x = 0;
-      t.y = 0;
+      target_pos.x = 0;
+      target_pos.y = 0;
     }
 
-    return t;
+    return target_pos;
   }
 }
