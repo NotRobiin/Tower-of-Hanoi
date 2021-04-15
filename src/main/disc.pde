@@ -20,32 +20,32 @@ class Disc
 
   Disc(int _size, Pole spawn_point)
   {
-    pos = new PVector(0, 0);
-    vel = new PVector(0, 0);
-    acc = new PVector(0, 0);
-    size = _size;
-    w = DiscDefaultWidth + size * DiscGrowth;
-    pos = spawn_point.get_spot_pos(this);
+    this.pos = new PVector(0, 0);
+    this.vel = new PVector(0, 0);
+    this.acc = new PVector(0, 0);
+    this.size = _size;
+    this.w = DiscDefaultWidth + this.size * DiscGrowth;
+    this.pos = spawn_point.get_spot_pos(this);
     spawn_point.discs.add(this);
-    owner = spawn_point;
+    this.owner = spawn_point;
   }
 
   void draw()
   {
     push();
     strokeWeight(1);
-    fill(c);
+    fill(this.c);
 
-    rect(pos.x, pos.y, w, DiscHeight, DiscCurve);
+    rect(this.pos.x, this.pos.y, this.w, DiscHeight, DiscCurve);
 
     if (DiscShowSize)
     {
-      float x = pos.x + w / 2;
-      float y = pos.y + DiscHeight * 0.75;
+      float x = this.pos.x + this.w / 2;
+      float y = this.pos.y + DiscHeight * 0.75;
 
       fill(255);
       textSize(DiscShowSizeTextSize);
-      text(str(size), x, y);
+      text(str(this.size), x, y);
     }
 
     pop();
@@ -53,60 +53,65 @@ class Disc
 
   void update(Tower tower)
   {
-    move(tower);
+    this.move(tower);
   }
 
   void move_to(int which_pole)
   {
     // Leaving a pole.
-    if (owner != null)
+    if (this.owner != null)
     {
-      owner.leave(this);
+      this.owner.leave(this);
     }
 
-    state = MoveState.up;
-    move_target = which_pole;
+    this.state = MoveState.up;
+    this.move_target = which_pole;
   }
 
   void move(Tower tower)
   {
-    if (state == MoveState.none)
+    if (this.state == MoveState.none)
     {
       return;
     }
 
     PVector target = new PVector(0, 0);
 
-    if (state == MoveState.up) target = move_up();
-    else if (state == MoveState.side) target = move_side(tower, move_target);
-    else if (state == MoveState.down) target = move_down(tower, move_target);
+    if (this.state == MoveState.up)
+      target = this.move_up();
+
+    else if (this.state == MoveState.side)
+      target = this.move_side(tower, move_target);
+
+    else if (this.state == MoveState.down)
+      target = this.move_down(tower, move_target);
 
     if (target.x == 0 && target.y == 0)
     {
       return;
     }
 
-    PVector direction = PVector.sub(target, pos);
+    PVector direction = PVector.sub(target, this.pos);
     direction.normalize();
     direction.mult(DiscDirectionScaling);
 
-    acc = direction;
+    this.acc = direction;
 
-    vel.add(acc);
-    vel.limit(DiscMaxVelocity);
-    pos.add(vel);
+    this.vel.add(acc);
+    this.vel.limit(DiscMaxVelocity);
+    this.pos.add(this.vel);
 
-    owner = tower.poles.get(move_target);
+    this.owner = tower.poles.get(this.move_target);
   }
 
   PVector move_up()
   {
-    PVector t = new PVector(pos.x, height * 0.1);
+    PVector t = new PVector(this.pos.x, height * 0.1);
 
     // Move above the pole.
-    if (dist(pos.x, pos.y, t.x, t.y) < DiscDistance)
+    if (dist(this.pos.x, this.pos.y, t.x, t.y) < DiscDistance)
     {
-      state = MoveState.side;
+      this.state = MoveState.side;
       t.x = 0;
       t.y = 0;
     }
@@ -120,15 +125,15 @@ class Disc
     PVector t = p.get_spot_pos(this);
 
     // Arrived
-    if (dist(pos.x, pos.y, t.x, t.y) < DiscDistance)
+    if (dist(this.pos.x, this.pos.y, t.x, t.y) < DiscDistance)
     {
       p.discs.add(this);
-      owner = p;
-      state = MoveState.none;
+      this.owner = p;
+      this.state = MoveState.none;
       t.x = 0;
       t.y = 0;
       moving = false;
-      move_target = -1;
+      this.move_target = -1;
     }
 
     return t;
@@ -142,12 +147,12 @@ class Disc
     // Fix for jiggling due to acceleration.
     t.y = height * 0.1;
 
-    state = MoveState.side;
+    this.state = MoveState.side;
 
     // Move down.
-    if (dist(pos.x, pos.y, t.x, t.y) < DiscDistance)
+    if (dist(this.pos.x, this.pos.y, t.x, t.y) < DiscDistance)
     {
-      state = MoveState.down;
+      this.state = MoveState.down;
       t.x = 0;
       t.y = 0;
     }

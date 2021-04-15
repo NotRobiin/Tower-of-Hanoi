@@ -9,22 +9,22 @@ class Log
 
   void set_message(String _message, float _time)
   {
-    message = _message;
-    time = (int) (millis() + _time * 1000);
+    this.message = _message;
+    this.time = (int) (millis() + _time * 1000);
   }
 
   void update()
   {
-    if (millis() > time)
+    if (millis() > this.time)
     {
-      time = 0;
-      message = null;
+      this.time = 0;
+      this.message = null;
     }
   }
 
   void draw()
   {
-    if (millis() > time || message == null)
+    if (millis() > this.time || this.message == null)
     {
       return;
     }
@@ -32,7 +32,7 @@ class Log
     push();
     fill(LogTextColor);
     textSize(LogTextSize);
-    text(message, 0, 0 + LogTextSize);
+    text(this.message, 0, LogTextSize);
     pop();
   }
 }

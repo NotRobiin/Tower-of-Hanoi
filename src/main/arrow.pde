@@ -5,14 +5,14 @@ class Arrow
 
   Arrow(Disc d)
   {
-    owner = d;
-    pos = d.pos.copy();
+    this.owner = d;
+    this.pos = d.pos.copy();
   }
 
   void draw()
   {
-    float x = owner.owner.get_spot_pos(owner).x - ArrowWidth * 2;
-    float y = pos.y + DiscHeight / 2;
+    float x = this.owner.owner.get_spot_pos(owner).x - ArrowWidth * 2;
+    float y = this.pos.y + DiscHeight / 2;
     float x1 = x + ArrowWidth;
     float y1 = y - ArrowWidth / 2;
     float x2 = x + ArrowWidth;

@@ -7,25 +7,25 @@ class Tower
 
   Tower()
   {
-    w = (int) (width * TowerWidthMult);
-    h = (int) (height * TowerHeightMult);
+    this.w = (int) (width * TowerWidthMult);
+    this.h = (int) (height * TowerHeightMult);
 
-    base_pos.x = width / 2 - (w / 2);
-    base_pos.y = height * 0.65;
+    this.base_pos.x = width / 2 - (this.w / 2);
+    this.base_pos.y = height * 0.65;
 
-    poles.add(new Pole(this, PoleSpot.left));
-    poles.add(new Pole(this, PoleSpot.middle));
-    poles.add(new Pole(this, PoleSpot.right));
+    this.poles.add(new Pole(this, PoleSpot.left));
+    this.poles.add(new Pole(this, PoleSpot.middle));
+    this.poles.add(new Pole(this, PoleSpot.right));
   }
 
   void draw()
   {
     // Base
     fill(TowerColor);
-    rect(base_pos.x, base_pos.y, w, h, TowerCurve);
+    rect(this.base_pos.x, this.base_pos.y, this.w, this.h, TowerCurve);
 
     // Poles
-    for (Pole p : poles)
+    for (Pole p : this.poles)
     {
       p.draw();
     }
@@ -38,11 +38,11 @@ class Tower
 
   int get_width()
   {
-    return w;
+    return this.w;
   }
 
   int get_height()
   {
-    return h;
+    return this.h;
   }
 }

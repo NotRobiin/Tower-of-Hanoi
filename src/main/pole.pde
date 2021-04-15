@@ -17,33 +17,33 @@ class Pole
 
   Pole(Tower tower, PoleSpot _spot)
   {
-    w = sf_get_width(tower);
-    h = sf_get_height();
-    offset = sf_get_offset(tower);
-    spot = _spot;
+    this.w = sf_get_width(tower);
+    this.h = sf_get_height();
+    this.offset = sf_get_offset(tower);
+    this.spot = _spot;
 
-    pos.x = tower.base_pos.x;
-    pos.y = tower.base_pos.y - h;
+    this.pos.x = tower.base_pos.x;
+    this.pos.y = tower.base_pos.y - this.h;
 
     sf_set_pos_by_spot(tower);
 
-    button = new Button(tower, this);
+    this.button = new Button(tower, this);
   }
 
   void draw()
   {
-    rect(pos.x, pos.y + PoleCurve, w, h, PoleCurve);
+    rect(this.pos.x, this.pos.y + PoleCurve, this.w, this.h, PoleCurve);
 
-    button.draw();
+    this.button.draw();
   }
 
   void leave(Disc d)
   {
-    for (int i = 0; i < discs.size(); i++)
+    for (int i = 0; i < this.discs.size(); i++)
     {
-      if (discs.get(i) == d)
+      if (this.discs.get(i) == d)
       {
-        discs.remove(i);
+        this.discs.remove(i);
         break;
       }
     }
@@ -53,29 +53,29 @@ class Pole
   {
     PVector p = pos.copy();
 
-    p.x += -(d.w / 2) + w / 2;
+    p.x += -(d.w / 2) + this.w / 2;
 
     return p;
   }
 
   PVector get_spot_pos(Disc d)
   {
-    PVector p = pos.copy();
+    PVector p = this.pos.copy();
 
-    p.x += -(d.w / 2) + w / 2;
-    p.y += h - DiscHeight * (discs.size() + 1);
+    p.x += -(d.w / 2) + this.w / 2;
+    p.y += this.h - DiscHeight * (this.discs.size() + 1);
 
     return p;
   }
 
   int get_width()
   {
-    return w;
+    return this.w;
   }
 
   int get_height()
   {
-    return h;
+    return this.h;
   }
 
   // Setup functions
@@ -93,11 +93,16 @@ class Pole
   {
     return (int) (tower.get_width() * PoleOffset);
   }
-  
+
   void sf_set_pos_by_spot(Tower tower)
   {
-    if (spot == PoleSpot.left) pos.x += offset;
-    else if (spot == PoleSpot.middle) pos.x += tower.get_width() / 2 - w;
-    else if (spot == PoleSpot.right) pos.x += tower.get_width() - offset - w;
+    if (this.spot == PoleSpot.left)
+      this.pos.x += offset;
+
+    else if (this.spot == PoleSpot.middle)
+      this.pos.x += tower.get_width() / 2 - this.w;
+
+    else if (this.spot == PoleSpot.right)
+      this.pos.x += tower.get_width() - offset - this.w;
   }
 }

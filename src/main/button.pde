@@ -7,33 +7,33 @@ class Button
 
   Button(Tower tower, Pole o)
   {
-    owner = o;
-    h = ButtonHeight;
-    w = (int) (owner.get_width() * ButtonWidthRatio);
+    this.owner = o;
+    this.h = ButtonHeight;
+    this.w = (int) (this.owner.get_width() * ButtonWidthRatio);
 
-    float x = owner.pos.x  - (w / 2) + (owner.get_width() / 2);
-    float y = tower.base_pos.y + (h * 2);
-    pos = new PVector(x, y);
+    float x = this.owner.pos.x  - (this.w / 2) + (this.owner.get_width() / 2);
+    float y = tower.base_pos.y + (this.h * 2);
+    this.pos = new PVector(x, y);
   }
 
   void draw()
   {
     push();
     fill(ButtonColor);
-    rect(pos.x, pos.y, w, h, ButtonCurve);
+    rect(this.pos.x, this.pos.y, this.w, this.h, ButtonCurve);
 
 
     pushMatrix();
-    translate(pos.x, pos.y);
+    translate(this.pos.x, this.pos.y);
 
-    float x = w / 2;
-    float y = h / 2;
+    float x = this.w / 2;
+    float y = this.h / 2;
 
     fill(ButtonTextColor);
 
     textAlign(CENTER, CENTER);
     textSize(ButtonTextSize);
-    text(get_text(), x, y);
+    text(this.get_text(), x, y);
 
     popMatrix();
     pop();
@@ -44,7 +44,7 @@ class Button
     String out = "";
 
     // Such a weird syntax...
-    switch(owner.spot)
+    switch(this.owner.spot)
     {
     case left: 
       out = "Left"; 
