@@ -11,7 +11,7 @@ class Button
     this.h = ButtonHeight;
     this.w = (int) (this.owner.get_width() * ButtonWidthRatio);
 
-    float x = this.owner.pos.x  - (this.w / 2) + (this.owner.get_width() / 2);
+    float x = this.owner.pos.x - (this.w / 2) + (this.owner.get_width() / 2);
     float y = tower.base_pos.y + (this.h * 2);
     this.pos = new PVector(x, y);
   }

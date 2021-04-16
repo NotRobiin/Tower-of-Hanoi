@@ -94,8 +94,11 @@ class Disc
 
     this.acc = direction;
 
+    float distance = dist(this.pos.x, this.pos.y, target.x, target.y);
+    float max_vel = distance > DiscMaxVelocity ? DiscMaxVelocity : distance;
+
     this.vel.add(this.acc);
-    this.vel.limit(DiscMaxVelocity);
+    this.vel.limit(max_vel);
     this.pos.add(this.vel);
 
     this.owner = tower.poles.get(this.move_target);

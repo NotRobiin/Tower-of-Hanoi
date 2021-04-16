@@ -9,7 +9,8 @@
 
 
 // Basic setup
-final int DiscsAmount = 10;
+final int DiscsAmount = 4;
+final int DiscsDefaultPole = 1;
 
 // Window
 final int BackgroundColor = 51;
@@ -50,9 +51,9 @@ final boolean DiscShowSize = true;
 final int DiscShowSizeTextSize = 10;
 final color DiscTextColor = color(255, 255, 255);
 
-final int DiscMaxVelocity = 7;
+final int DiscMaxVelocity = 35;
 final float DiscDirectionScaling = 100.0;
-final int DiscDistance = 5;
+final int DiscDistance = 2;
 
 final int[] DiscColorRange = {20, 200};
 
